@@ -5,16 +5,14 @@ import {
   LOAD_APP_CONFIGURATIONS
 } from './redux-helpers/actions';
 import axios from 'axios';
-import Home from './home/index';
-import Members from './members/index';
-import Content from './content/index';
 
 const APP_CONFIGURATIONS_ENDPOINT = "https://s3.amazonaws.com/project-bugatti/bugatti-web-configs.json";
 
 class App extends Component {
 
-  ComponentFromString = () => {
-    var MyComponent = Members;
+  ComponentFromString = (componentNameAsString) => {
+    var MyComponent = componentNameAsString;
+    console.log(MyComponent.type);
     return React.createElement(MyComponent, {});
   };
 
@@ -38,9 +36,9 @@ class App extends Component {
       return (
         <Router>
           <div>{
-            this.props.appConfigs.pages.forEach( (page) =>
-              <Route exact path={page.route} component={this.ComponentFromString} key={page.title}/>
-            )
+            // this.props.appConfigs.pages.forEach( (page) =>
+            <Route exact path="/" component={this.ComponentFromString("Home")} key={"Home"}/>
+            // )
           }
 
 

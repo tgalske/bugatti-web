@@ -14,7 +14,7 @@
   "scripts": {
     "build:css": "postcss src/App.css -o src/index.css",
     "watch:css": "postcss src/App.css -o src/index.css -w",
-    "start": "npm run watch:css & PORT=3001 react-scripts start",
+    "start": "npm run build:css & react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
