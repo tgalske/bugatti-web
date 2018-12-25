@@ -4,9 +4,12 @@ import GridItem from './grid-item';
 class Grid extends Component {
   render() {
     return (
-      <div>
+      <div className="m-2">
         {this.props.members.map((member) =>
-          <GridItem member={member} key={member.member_id}/>
+          <GridItem
+            member={member}
+            key={member.member_id}
+          />
         )}
       </div>
     );

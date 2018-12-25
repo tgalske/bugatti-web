@@ -18,6 +18,19 @@ class Members extends Component {
     this.fetchMembers();
   }
 
+  fetchMembers = () => {
+    var self = this;
+    axios.get(MEMBERS_ENDPOINT)
+      .then(function (response) {
+        self.setState({
+          members: response.data.Items.sort()
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   render() {
     return (
       <div>
@@ -26,19 +39,6 @@ class Members extends Component {
       </div>
     );
   }
-
-  fetchMembers = () => {
-    var self = this;
-    axios.get(MEMBERS_ENDPOINT)
-      .then(function (response) {
-        self.setState({
-          members: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
 
 }
 
