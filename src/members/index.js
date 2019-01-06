@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import Grid from "./grid";
 import Header from "../header";
-
-const MEMBERS_ENDPOINT = 'http://localhost:3000/members/';
+import GridItem from './grid-item';
+import connect from "react-redux/es/connect/connect";
+import NewItemButton from "../utils/new-item-button";
+import NewMemberForm from "./new-member-form";
+import {getMembersEndpoint, sendHttpGet} from "../utils/helper-functions";
 
 class Members extends Component {
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       members: [],
+      showMemberForm: false
     };
   }
 
@@ -19,27 +21,51 @@ class Members extends Component {
   }
 
   fetchMembers = () => {
-    var self = this;
-    axios.get(MEMBERS_ENDPOINT)
-      .then(function (response) {
-        self.setState({
-          members: response.data.Items.sort()
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    sendHttpGet(getMembersEndpoint(),
+      (response) => this.setState({ members: response }),
+      (error) => {} );
+  };
+
+  toggleShowMemberForm = () => {
+    this.setState({ showMemberForm: !this.state.showMemberForm });
+  };
+
+  newMemberSubmittedCallback = () => {
+    this.toggleShowMemberForm();
+    this.fetchMembers();
   };
 
   render() {
     return (
       <div>
         <Header/>
-        <Grid members={this.state.members}/>
+        <NewItemButton
+          buttonTitle={"New Member"}
+          showButtonTitle={this.state.showMemberForm}
+          parentCallback={this.toggleShowMemberForm}
+        />
+
+        {
+          this.state.showMemberForm &&
+          <NewMemberForm
+            parentCallback={this.newMemberSubmittedCallback}
+          />
+        }
+
+        {this.state.members.map((member) =>
+          <GridItem
+            member={member}
+            key={member.member_id}
+          />
+        )}
       </div>
     );
   }
 
 }
 
-export default Members;
+const mapStateToProps = (state) => ({
+  appConfigs: state.appConfigs
+});
+
+export default connect(mapStateToProps) (Members);

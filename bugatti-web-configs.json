@@ -1,6 +1,9 @@
 {
 	"app_title": "GC Media",
-	"bugatti_api_endpoint" : "http://localhost:3000",
+	"api_endpoints" : {
+		"develop" : "http://localhost:3000",
+		"prod": "https://bugatti-api.thegc.cf"
+	},
 	"default_background_color": "#E3342F",
 	"pages" : [
 		{
