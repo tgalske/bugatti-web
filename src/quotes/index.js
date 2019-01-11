@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from "../header";
 import SingleQuote from "./single-quote";
 import NewItemButton from "../utils/new-item-button";
 import NewQuoteForm from "./new-quote-form";
@@ -39,8 +38,6 @@ class Quotes extends Component {
   render() {
     return (
       <div>
-        <Header/>
-
         <NewItemButton
           buttonTitle={"New Quote"}
           showButtonTitle={this.state.showQuoteForm}

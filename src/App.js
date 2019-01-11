@@ -2,14 +2,28 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import connect from "react-redux/es/connect/connect";
 import { LOAD_APP_CONFIGURATIONS } from './redux-helpers/actions';
+import PrivateRoute from './auth/private-route';
 import Home from './home/index';
 import Upload from './upload/index';
 import Quotes from './quotes/index';
 import Search from './search/index';
 import Members from './members/index';
 import MemberProfile from './members/member-profile';
+import Login from './auth/login';
+import Logout from './auth/logout';
 import {sendHttpGet} from "./utils/helper-functions";
 import Alert from "./utils/alert";
+import Auth from './auth/auth';
+import Callback from "./auth/callback";
+import Header from "./header";
+
+const auth = new Auth();
+
+const handleAuthentication = ({location}) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+};
 
 class App extends Component {
 
@@ -49,15 +63,23 @@ class App extends Component {
     if (this.props.appConfigs) {
       return (
         <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/upload" component={Upload} />
-            <Route path="/quotes" component={Quotes} />
-            <Route path="/search" component={Search} />
-            <Route path="/members/:member_id" component={MemberProfile} />
-            <Route path="/members" component={Members} />
-            <Route path="/profile" component={MemberProfile} />
-          </Switch>
+          <div>
+            <Header auth={auth}/>
+            <Switch>
+              <Route path="/login" render={(props) => <Login {...props} auth={auth} /> } />
+              <Route path="/callback" render={(props) => {
+                handleAuthentication(props);
+                return <Callback {...props} />
+              }}/>
+              <Route exact path="/"component={Home} auth={auth}/>
+              <PrivateRoute path="/upload" component={Upload} auth={auth}/>
+              <PrivateRoute path="/quotes" component={Quotes} auth={auth}/>
+              <PrivateRoute path="/search" component={Search} auth={auth}/>
+              <PrivateRoute path="/members/:member_id" component={MemberProfile} auth={auth}/>
+              <PrivateRoute path="/members" component={Members} auth={auth}/>
+              <PrivateRoute path="/logout" component={Logout} auth={auth}/>
+            </Switch>
+          </div>
         </Router>
       );
     } else if (this.state.remoteConfigError) {

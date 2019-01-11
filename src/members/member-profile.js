@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from "../header";
 import InitialsCircle from "./initials-circle";
 import {getMembersEndpoint, prettyPrintPhone, sendHttpGet} from '../utils/helper-functions';
 import {FaMobileAlt, FaCaretUp} from 'react-icons/fa';
@@ -61,8 +60,6 @@ class MemberProfile extends Component {
   render() {
     return (
       <div>
-        <Header/>
-
         {/* Initials Circle */}
         <div className="flex justify-center mt-4">
           {

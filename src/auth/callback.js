@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 
-class Search extends Component {
-
+class Callback extends Component {
   render() {
     return (
       <div>
-        <p>Search</p>
+        <p>Loading</p>
       </div>
     );
   }
-
 }
 
-export default Search;
+export default Callback;

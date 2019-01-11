@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from "../header";
 import GridItem from './grid-item';
 import connect from "react-redux/es/connect/connect";
 import NewItemButton from "../utils/new-item-button";
@@ -38,7 +37,6 @@ class Members extends Component {
   render() {
     return (
       <div>
-        <Header/>
         <NewItemButton
           buttonTitle={"New Member"}
           showButtonTitle={this.state.showMemberForm}
