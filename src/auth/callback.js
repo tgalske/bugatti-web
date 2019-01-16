@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router';
 
-class Callback extends Component {
-  render() {
-    return (
-      <div>
-        <p>Loading</p>
-      </div>
-    );
-  }
+function Callback(props) {
+  props.auth.handleAuthentication().then(() => {
+    props.history.push('/');
+  });
+
+  return (
+    <div>
+      Loading
+    </div>
+  );
 }
 
-export default Callback;
+export default withRouter(Callback);

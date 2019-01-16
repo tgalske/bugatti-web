@@ -40,6 +40,8 @@ class Header extends Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
+    console.log('from header: is authenticated?', isAuthenticated());
+
     return (
       <nav className="flex items-center justify-between flex-wrap bg-teal p-6">
         <div className="flex items-center flex-no-shrink text-white mr-6">

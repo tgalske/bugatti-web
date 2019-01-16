@@ -13,17 +13,8 @@ import Login from './auth/login';
 import Logout from './auth/logout';
 import {sendHttpGet} from "./utils/helper-functions";
 import Alert from "./utils/alert";
-import Auth from './auth/auth';
 import Callback from "./auth/callback";
 import Header from "./header";
-
-const auth = new Auth();
-
-const handleAuthentication = ({location}) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
-  }
-};
 
 class App extends Component {
 
@@ -37,11 +28,18 @@ class App extends Component {
   remoteConfigError = false;
 
   componentDidMount() {
+    // fetch remote configs
     const APP_CONFIGURATIONS_ENDPOINT = "https://s3.amazonaws.com/project-bugatti/bugatti-web-configs.json";
     sendHttpGet(APP_CONFIGURATIONS_ENDPOINT,
       (response) => this.setRemoteConfigs(response),
       (error) => this.setState({remoteConfigError: true })
     );
+
+    // handle auth
+    const { renewSession } = this.props.auth;
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      renewSession();
+    }
   }
 
   setRemoteConfigs = (configs) => {
@@ -60,6 +58,9 @@ class App extends Component {
   };
 
   render() {
+
+    const auth = this.props.auth;
+
     if (this.props.appConfigs) {
       return (
         <Router>
@@ -67,10 +68,7 @@ class App extends Component {
             <Header auth={auth}/>
             <Switch>
               <Route path="/login" render={(props) => <Login {...props} auth={auth} /> } />
-              <Route path="/callback" render={(props) => {
-                handleAuthentication(props);
-                return <Callback {...props} />
-              }}/>
+              <Route exact path='/callback' render={() => (<Callback auth={auth}/>)}/>
               <Route exact path="/"component={Home} auth={auth}/>
               <PrivateRoute path="/upload" component={Upload} auth={auth}/>
               <PrivateRoute path="/quotes" component={Quotes} auth={auth}/>

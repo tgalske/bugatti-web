@@ -3,6 +3,10 @@ import history from "../utils/history";
 
 export default class Auth {
 
+  accessToken;
+  idToken;
+  expiresAt;
+
   auth0 = new auth0.WebAuth({
     domain: 'gcmedia.auth0.com',
     clientID: 'H2FoY19W39tr5OUyz04S0E0YGlg6m7xn',
@@ -12,13 +16,8 @@ export default class Auth {
   });
 
   login = () => {
-    console.log('login from auth');
     this.auth0.authorize();
   };
-
-  accessToken;
-  idToken;
-  expiresAt;
 
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {

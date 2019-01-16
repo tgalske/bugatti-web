@@ -5,6 +5,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   const {isAuthenticated} = rest.auth;
 
+  console.log('is authenticated? ', isAuthenticated());
+
   return (
     <Route
       {...rest}
