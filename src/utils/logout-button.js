@@ -1,12 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React, {Component} from 'react';
 
-const LogoutButton = () => (
-  <Link to="/logout">
-    <button className="py-2 px-4 rounded bg-white text-teal-dark font-semibold hover:underline">
-      Logout
-    </button>
-  </Link>
-);
+class LogoutButton extends Component {
+
+  logout= () => {
+    this.props.auth.logout();
+  };
+
+
+  render() {
+    return (
+      <button
+        className="py-2 px-4 rounded bg-white text-teal-dark font-semibold hover:underline"
+        onClick={() => this.logout()}
+      >
+        Logout
+      </button>
+    )
+  }
+}
 
 export default LogoutButton;

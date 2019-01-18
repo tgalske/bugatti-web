@@ -5,8 +5,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   const {isAuthenticated} = rest.auth;
 
-  console.log('is authenticated? ', isAuthenticated());
-
   return (
     <Route
       {...rest}
@@ -16,7 +14,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/paywall",
               state: { from: props.location }
             }}
           />

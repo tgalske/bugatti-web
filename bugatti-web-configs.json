@@ -9,7 +9,7 @@
 		{
 			"title" : "Home",
 			"subtitle" : "View the latest uploads",
-			"route" : "/"
+			"route" : "/home"
 		},
 		{
 			"title" : "Upload",

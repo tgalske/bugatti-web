@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "auth0-js": "^9.8.2",
+    "auth0-js": "^9.9.0",
     "axios": "^0.18.0",
+    "postcss": "^7.0.13",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-icons": "^3.2.2",
@@ -14,11 +15,11 @@
     "redux": "^4.0.1"
   },
   "scripts": {
-    "build:css": "postcss src/App.css -o src/index.css",
-    "watch:css": "postcss src/App.css -o src/index.css",
-    "start": "npm run watch:css & react-scripts start",
-    "build": "npm run build:css && react-scripts build",
-    "test": "react-scripts test",
+    "prestart": "tailwind build ./src/index.tailwind.css -c ./tailwind-config.js -o ./src/index.css",
+    "start": "react-scripts start",
+    "prebuild": "tailwind build ./src/index.tailwind.css -c ./tailwind-config.js -o ./src/index.css",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
