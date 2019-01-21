@@ -1,22 +1,45 @@
-import React from 'react';
+import React, {Component} from 'react';
+import { Link } from 'react-router-dom'
 
-const SingleQuote = (props) => {
-  const memberName = props.quote.nickname ? props.quote.nickname : props.quote.firstname;
-  return (
-    <div className="flex flex-row pb-4 m-4 border-grey-dark border-b text-xl lg:text-2xl">
-      <p className="text-grey-darkest">
-        {props.quote.quote_text}
-      </p>
+class SingleQuote extends Component {
+  memberName = (this.props.quote.nickname) ? this.props.quote.nickname : this.props.quote.firstname
+  quoteProfileLink = '/quotes/' + this.props.quote.quote_id;
 
-      {
-        memberName &&
-        <p className="ml-2 text-grey-darker">
-        - {memberName}
-        </p>
-      }
+  render() {
+    return (
+      <Link
+        to={{
+          pathname: this.quoteProfileLink,
+          state: {
+            quote: this.props.quote
+          }
+        }}
+        className="no-underline"
+      >
+        <div
+          className="flex flex-col m-2 bg-grey-lightest cursor-pointer text-xl shadow-lg rounded-lg border border-grey-light"
+          onClick={ () => this.setState({ redirectToQuoteProfile: true}) }
+        >
 
-    </div>
-  )
+          <p className="m-4 text-grey-darkest whitespace-pre-line font-bold">
+            {this.props.quote.quote_text}
+          </p>
+
+          {/* Show author of quote if prop was passed */}
+          <div className="flex flex-initial">
+            {
+              this.memberName &&
+              <p
+                className="px-4 py-1 text-grey-darkest border-t border-r rounded-bl-lg rounded-tr-lg border-teal-light bg-teal-lightest">
+                {this.memberName}
+              </p>
+            }
+          </div>
+        </div>
+      </Link>
+
+    )
+  }
 };
 
 export default SingleQuote;

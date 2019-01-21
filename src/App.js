@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import connect from "react-redux/es/connect/connect";
 import { LOAD_APP_CONFIGURATIONS } from './redux-helpers/actions';
 import {sendHttpGet} from "./utils/helper-functions";
@@ -7,19 +7,11 @@ import Alert from "./utils/alert";
 import Header from "./header/header";
 import Callback from "./callback/callback";
 import history from './utils/history';
-import Auth from './auth/auth';
-import PrivateRoute from './auth/private-route';
 import Home from './home/home';
-import Members from "./members/index";
-
-
-const auth = new Auth();
-
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
+import Members from "./members/members";
+import MemberProfile from './members/member-profile';
+import Quotes from './quotes/quotes';
+import QuoteProfile from './quotes/quote-profile';
 
 class App extends Component {
 
@@ -30,8 +22,6 @@ class App extends Component {
     }
   }
 
-  remoteConfigError = false;
-
   componentDidMount() {
     // fetch remote configs
     const APP_CONFIGURATIONS_ENDPOINT = "https://s3.amazonaws.com/project-bugatti/bugatti-web-configs.json";
@@ -39,12 +29,6 @@ class App extends Component {
       (response) => this.setRemoteConfigs(response),
       (error) => this.setState({remoteConfigError: true })
     );
-
-    // handle auth
-    const { renewSession } = auth;
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      renewSession();
-    }
   }
 
   setRemoteConfigs = (configs) => {
@@ -58,18 +42,18 @@ class App extends Component {
   };
 
   render() {
-
     if (this.props.appConfigs) {
       return (
         <Router history={history}>
           <div>
-            <Route path="/" render={(props) => <Header auth={auth} {...props} /> } />
-            <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
-            <Route path="/callback" render={(props) => {
-              handleAuthentication(props);
-              return <Callback {...props} />
-            }}/>
-            <PrivateRoute path="/members" component={Members} auth={auth}/>
+            <Header/>
+            <Switch>
+              <Route path="/home" component={Home} />
+              <Route path="/quotes/:quote_id" component={QuoteProfile} />
+              <Route path="/quotes" component={Quotes} />
+              <Route path="/members/:member_id" component={MemberProfile} />
+              <Route path="/members" component={Members} />
+            </Switch>
           </div>
         </Router>
       );

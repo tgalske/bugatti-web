@@ -11,25 +11,10 @@ class Home extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.props.auth;
 
     return (
       <div>
         <p>Home page</p>
-        <br/>
-        <br/>
-        {
-          !isAuthenticated() ? (
-            <div onClick={this.login}>
-              Click me to login
-            </div>
-          ) : (
-            <div onClick={this.logout}>
-              Click me to logout
-            </div>
-          )
-        }
-
       </div>
     )
   }

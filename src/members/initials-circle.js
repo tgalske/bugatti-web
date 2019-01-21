@@ -8,7 +8,7 @@ const getInitials = (props) => {
 
 const getBackgroundColor = (props) => {
   let backgroundColor = props.member.background_color;
-  return (backgroundColor) ? backgroundColor : 'bg-grey-darker';
+  return (backgroundColor) ? backgroundColor : 'bg-teal';
 };
 
 class InitialsCircle extends Component {
@@ -18,7 +18,7 @@ class InitialsCircle extends Component {
 
   render() {
     return(
-      <div className={this.backgroundColor + " rounded-full h-16 w-16 flex items-center justify-center no-underline"}>
+      <div className={this.backgroundColor + " rounded-full h-16 w-16 flex items-center justify-center border border-teal-dark no-underline"}>
         <span className="text-2xl text-white"> {this.initials} </span>
       </div>
     )

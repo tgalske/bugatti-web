@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SingleQuote from "./single-quote";
 import NewItemButton from "../utils/new-item-button";
-import NewQuoteForm from "./new-quote-form";
+import QuoteForm from "./quote-form";
 import connect from "react-redux/es/connect/connect";
 import {getQuotesEndpoint, sendHttpGet} from "../utils/helper-functions";
 
@@ -11,7 +11,7 @@ class Quotes extends Component {
     super();
     this.state = {
       quotes: [],
-      showQuoteForm: false
+      showQuoteForm: false,
     };
   }
 
@@ -46,9 +46,12 @@ class Quotes extends Component {
 
         {
           this.state.showQuoteForm &&
-          <NewQuoteForm
-            parentCallback={this.newQuoteSubmittedCallback}
-          />
+          <div>
+            <QuoteForm
+              parentCallback={this.newQuoteSubmittedCallback}
+            />
+            <div className="my-8 bg-red"/>
+          </div>
         }
 
         {

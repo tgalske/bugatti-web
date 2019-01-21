@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import InitialsCircle from "./initials-circle";
 
-const getMemberProfileLink = (memberId) => {
-  return '/members/' + memberId;
-};
+class SingleMember extends Component {
 
-class GridItem extends Component {
-
-  memberProfileLink = getMemberProfileLink(this.props.member.member_id);
+  memberProfileLink = '/members/' + this.props.member.member_id;
 
   render() {
     return (
-      <div className="m-2 overflow-hidden shadow-lg bg-grey-lightest rounded-lg ">
+      <div className="m-2 overflow-hidden shadow-lg bg-grey-lightest rounded-lg border border-grey-light">
         <Link
           to={this.memberProfileLink}
           className="no-underline"
         >
 
-          <div className="flex m-4 text-grey-darkest">
+          <div className="flex p-4 text-grey-darkest">
             <InitialsCircle member={this.props.member} />
             <div className="self-center font-bold text-xl ml-4 mt-1 mb-2">
               {this.props.member.firstname} {this.props.member.lastname}
@@ -39,4 +35,4 @@ class GridItem extends Component {
   }
 }
 
-export default GridItem;
+export default SingleMember;

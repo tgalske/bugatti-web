@@ -8,6 +8,7 @@ class Paywall extends Component {
   };
 
   render() {
+    console.log('paywall!');
     return (
       <div className="flex justify-center my-4 mx-8">
 

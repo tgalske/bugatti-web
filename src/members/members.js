@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GridItem from './grid-item';
+import SingleMember from './single-member';
 import connect from "react-redux/es/connect/connect";
 import NewItemButton from "../utils/new-item-button";
 import NewMemberForm from "./new-member-form";
@@ -11,7 +11,7 @@ class Members extends Component {
     super();
     this.state = {
       members: [],
-      showMemberForm: false
+      showMemberForm: false,
     };
   }
 
@@ -35,23 +35,29 @@ class Members extends Component {
   };
 
   render() {
+
+    // hide the member form using CSS, don't remove from DOM
+    const memberFormStyles = (this.state.showMemberForm) ? 'visible' : 'hidden';
+
     return (
       <div>
+
+        {/* Add new member button */}
         <NewItemButton
           buttonTitle={"New Member"}
           showButtonTitle={this.state.showMemberForm}
           parentCallback={this.toggleShowMemberForm}
         />
 
-        {
-          this.state.showMemberForm &&
-          <NewMemberForm
-            parentCallback={this.newMemberSubmittedCallback}
-          />
-        }
 
+        {/* Member form */}
+        <div className={memberFormStyles}>
+          <NewMemberForm parentCallback={this.newMemberSubmittedCallback}/>
+        </div>
+
+        {/* List of members */}
         {this.state.members.map((member) =>
-          <GridItem
+          <SingleMember
             member={member}
             key={member.member_id}
           />

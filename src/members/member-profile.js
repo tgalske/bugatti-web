@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import InitialsCircle from "./initials-circle";
 import {getMembersEndpoint, prettyPrintPhone, sendHttpGet} from '../utils/helper-functions';
-import {FaMobileAlt, FaCaretUp} from 'react-icons/fa';
+import {FaMobileAlt, FaChevronCircleUp, FaChevronCircleDown} from 'react-icons/fa';
 import SingleQuote from "../quotes/single-quote";
-import {FaCaretDown} from "react-icons/fa/index";
 import connect from "react-redux/es/connect/connect";
 
 class MemberProfile extends Component {
@@ -30,26 +29,30 @@ class MemberProfile extends Component {
   };
 
   handleQuotes = () => {
+    const arrowStyles = "mr-2 text-teal";
     return (
-      <div>
+      <div className="m-2">
         <div
-          onClick={ () => this.setState({showQuotes : !this.state.showQuotes })}
-          className="flex justify-between m-4 py-4 text-2xl">
-          <p className="text-grey-darkest font-bold">Quotes</p>
+          className="flex justify-between items-center py-4 cursor-pointer text-grey-darkest text-2xl bg-teal-lightest rounded-lg"
+          onClick={ () => this.setState({showQuotes : !this.state.showQuotes })} >
+
+          <div className="flex">
+            <p className="ml-2 font-bold">Quotes</p>
+            <p className="ml-2">({this.state.member.quotes.length})</p>
+          </div>
           {
             this.state.showQuotes ? (
-              <FaCaretUp/>
+              <FaChevronCircleUp className={arrowStyles}/>
             ) : (
-              <FaCaretDown/>
+              <FaChevronCircleDown className={arrowStyles}/>
             )
           }
         </div>
         <div>
           {
             this.state.showQuotes &&
-
-            this.state.member.quotes.map( (quote, index) =>
-              <SingleQuote quote={quote} key={index}/>
+            this.state.member.quotes.map( (quote) =>
+              <SingleQuote quote={quote} key={quote.quote_id}/>
             )
           }
         </div>
@@ -79,11 +82,7 @@ class MemberProfile extends Component {
         </div>
 
         {/* Quotes */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-sm mt-4">
-            {this.handleQuotes()}
-          </div>
-        </div>
+        {this.handleQuotes()}
       </div>
     )
   }

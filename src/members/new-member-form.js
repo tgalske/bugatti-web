@@ -21,7 +21,6 @@ class NewMemberForm extends Component {
   };
 
   handleSubmit = () => {
-
     // return if at least one required input is blank
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
@@ -60,8 +59,9 @@ class NewMemberForm extends Component {
 
     return(
       <div className="flex justify-center m-2">
-        <div className="w-full max-w-sm shadow-lg rounded-lg text-grey-darkest bg-grey-lightest">
+        <div className="w-full max-w-sm shadow-lg rounded-lg text-grey-darkest bg-teal-lightest">
           <form>
+
             {/* Firstname */}
             <div className="px-4 mt-4 mb-8">
               <p className="ml-2 mb-2 font-bold">Firstname</p>

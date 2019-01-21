@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import connect from "react-redux/es/connect/connect";
 import { FaEquals } from "react-icons/fa";
-import LoginButton from "../utils/login-button";
 
 class Header extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      expandedNav: true
+      expandedNav: false
     };
   }
 
@@ -23,7 +22,6 @@ class Header extends Component {
             this.props.appConfigs.pages.map( (headerItem) =>
               <Link
                 to={headerItem.route}
-                onClick={() => this.setState({expandedNav: false })}
                 className={headerItemStyles}
                 key={headerItem.title}
               >
@@ -38,45 +36,37 @@ class Header extends Component {
 
 
   render() {
-
-    const { isAuthenticated } = this.props.auth;
-
     return (
-      <nav className="flex items-center justify-between flex-wrap bg-teal p-6">
+      <nav className="flex justify-between flex-wrap bg-teal p-6">
 
         { /* App Title */ }
-        <div className="flex items-center flex-no-shrink text-white mr-6">
+        <div className="pin-t mt-2 mr6">
           <Link to="/home" className="no-underline text-white font-semibold text-xl tracking-tight">
             {this.props.appConfigs.app_title}
           </Link>
         </div>
 
-        {
-          isAuthenticated() &&
-          <div>
-            <div className="block lg:hidden">
-              <button
-                className="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
-                onClick={() => this.setState({expandedNav: !this.state.expandedNav} )}
-              >
-                <FaEquals/>
-              </button>
-            </div>
+        <div>
+          <div className="text-right block lg:hidden">
+            <button
+              className="px-3 pt-2 pb-1 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
+              onClick={() => this.setState({expandedNav: !this.state.expandedNav} )}
+            >
+              <FaEquals/>
+            </button>
+          </div>
 
-            <div className="hidden lg:block">
+          <div className="hidden lg:block">
+            {this.showNavbarItems()}
+          </div>
+
+          {
+            this.state.expandedNav &&
+            <div className="w-full block flex-grow lg:hidden">
               {this.showNavbarItems()}
             </div>
-
-            {
-              this.state.expandedNav &&
-              <div className="w-full block flex-grow lg:hidden">
-                {this.showNavbarItems()}
-              </div>
-            }
-          </div>
-        }
-
-
+          }
+        </div>
       </nav>
     )
   }
