@@ -27,7 +27,10 @@ class App extends Component {
     const APP_CONFIGURATIONS_ENDPOINT = "https://s3.amazonaws.com/project-bugatti/bugatti-web-configs.json";
     sendHttpGet(APP_CONFIGURATIONS_ENDPOINT,
       (response) => this.setRemoteConfigs(response),
-      (error) => this.setState({remoteConfigError: true })
+      (error) => {
+      console.log(error)
+      this.setState({remoteConfigError: true })
+      }
     );
   }
 

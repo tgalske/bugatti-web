@@ -34,6 +34,7 @@
   "devDependencies": {
     "autoprefixer": "^9.4.3",
     "postcss-cli": "^6.1.0",
+    "react-dev-utils": "^7.0.1",
     "tailwindcss": "^0.7.3"
   }
 }
