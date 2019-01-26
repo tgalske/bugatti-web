@@ -35,15 +35,22 @@ export function createNewMember(newMember, callback) {
     .catch( (err) => callback(err));
 }
 
-export function submitNewQuote(newQuote, callback) {
-  const params = {
-    target_member_id: newQuote.target_member_id,
-    quote_text: newQuote.quote_text,
-    is_visible: (newQuote.is_visible) ? newQuote.is_visible : true,
+export function submitQuote(quote, callback) {
+  var params = {
+    target_member_id: quote.target_member_id,
+    quote_text: quote.quote_text,
   };
-  axios.post(getQuotesEndpoint(), params)
-    .then( (res) => callback(res))
-    .catch( (err) => callback(err));
+
+  if (quote.quote_id) {
+    axios.put(getQuotesEndpoint() + quote.quote_id, params)
+      .then( (res) => callback(res))
+      .catch( (err) => callback(err));
+
+  } else {
+    axios.post(getQuotesEndpoint(), params)
+      .then( (res) => callback(res))
+      .catch( (err) => callback(err));
+  }
 }
 
 export function sendHttpGet(url, onSuccess, onFailure) {

@@ -15,19 +15,20 @@ class QuoteProfile extends Component {
   }
 
   componentDidMount() {
-    // update state with quote prop
-    // if quote was not passed down through props, send an HTTP using the parameter
-
-    if (this.props.location.state === undefined) {
-      const quote_id = this.props.match.params.quote_id;
-      const quote_endpoint = getQuotesEndpoint() + quote_id;
-      sendHttpGet(quote_endpoint,
-        (response) => this.setState({quote: response}),
-        (error) => console.log(error));
-    } else {
-      this.setState({quote : this.props.location.state.quote })
-    }
+    this.fetchQuote();
   }
+
+  fetchQuote = () => {
+    console.log('fetching quote');
+    const quote_id = this.props.match.params.quote_id;
+    const quote_endpoint = getQuotesEndpoint() + quote_id;
+    sendHttpGet(quote_endpoint,
+      (response) => {
+        console.log(response)
+        this.setState( {quote: response})
+      },
+      (error) => console.log(error));
+  };
 
   toggleShowQuoteForm = () => {
     this.setState({ showQuoteForm: !this.state.showQuoteForm });
@@ -35,7 +36,7 @@ class QuoteProfile extends Component {
 
   quoteEditedCallback = () => {
     this.toggleShowQuoteForm();
-    console.log('need to refresh!');
+    this.fetchQuote();
   };
 
   render() {

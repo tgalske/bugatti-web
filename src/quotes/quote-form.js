@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {getMembersEndpoint, sendHttpGet, submitNewQuote} from '../utils/helper-functions';
-import {FaRegCheckCircle, FaRegTimesCircle, FaUpload, FaPencilAlt} from "react-icons/fa/index";
+import {getMembersEndpoint, sendHttpGet, submitQuote} from '../utils/helper-functions';
+import {FaRegCheckCircle, FaRegTimesCircle, FaUpload} from "react-icons/fa/index";
 
 class QuoteForm extends Component {
 
@@ -14,16 +14,20 @@ class QuoteForm extends Component {
   }
 
   componentDidMount() {
+
+    /* if editing a quote, populate form with quote text */
     if (this.props.quote) {
       this.setState({
         quote_text : this.props.quote.quote_text,
         target_member_id : this.props.quote.target_member_id
       });
     }
-
-    sendHttpGet(getMembersEndpoint(),
-      (response) => this.setState({members: response }),
-      (error) => {} );
+    /* otherwise, fetch members for dropdown */
+    else {
+      sendHttpGet(getMembersEndpoint(),
+        (response) => this.setState({members: response }),
+        (error) => {} );
+    }
   }
 
   handleFormChange = (event) => {
@@ -33,24 +37,19 @@ class QuoteForm extends Component {
   };
 
   handleSubmit = () => {
-    // return if at least one required input is blank
-    for (const key in this.state) {
-      if (this.state.hasOwnProperty(key)) {
-        if (this.state[key].length === 0) {
-          return;
-        }
-      }
+    // return if required inputs are empty
+    if (this.state.quote_text == null || this.state.target_member_id == null) {
+      return;
     }
 
-    const newQuoteRequest = {
+    const params = {
+      quote_id: this.props.quote.quote_id ? this.props.quote.quote_id : null,
       target_member_id: this.state.target_member_id,
       quote_text: this.state.quote_text
     };
 
-    submitNewQuote(newQuoteRequest, (postResponse) => {
-      // use callback to close form
-      this.props.parentCallback();
-    });
+    // after submit, use callback to close form after submission
+    submitQuote(params, () => this.props.parentCallback());
 
   };
 

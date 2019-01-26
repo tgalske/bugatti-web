@@ -33,7 +33,7 @@ class MemberProfile extends Component {
     return (
       <div className="m-2">
         <div
-          className="flex justify-between items-center py-4 cursor-pointer text-grey-darkest text-2xl bg-teal-lightest rounded-lg"
+          className="flex justify-between items-center py-4 border border-teal hover:shadow cursor-pointer text-grey-darkest text-2xl bg-teal-lightest rounded-lg"
           onClick={ () => this.setState({showQuotes : !this.state.showQuotes })} >
 
           <div className="flex">
